@@ -20,7 +20,7 @@ function fetchStudentsFromLocalStorage(){
 
 
    // Display each student
-   students.forEach((student, index) => {
+   students.forEach((student) => {
        const math = parseFloat(student.grades.math);
        const english = parseFloat(student.grades.english);
        const science = parseFloat(student.grades.science);
@@ -31,15 +31,15 @@ function fetchStudentsFromLocalStorage(){
 
        const row = `
            <tr>
-               <td>${student.name}</td>
-               <td>${student.id}</td>
+               <td>${student.name} (${student.id})</td>
                <td>${math}</td>
                <td>${english}</td>
                <td>${science}</td>
                <td><strong>${average}</strong></td>
                <td class="${statusClass}"><strong>${status}</strong></td>
                <td>
-                   <button class="btn btn-sm btn-danger" onclick="deleteStudent(${index})">Delete</button>
+                   <button class="btn btn-sm btn-warning me-1" onclick="editStudent('${student.id}')">Edit</button>
+                   <button class="btn btn-sm btn-danger" onclick="deleteStudent('${student.id}')">Delete</button>
                </td>
            </tr>
        `;
@@ -48,11 +48,14 @@ function fetchStudentsFromLocalStorage(){
 
 }
 
-let loadStudentsBtn = document.getElementById('loadStudentsBtn');
-if(loadStudentsBtn){
-    loadStudentsBtn.addEventListener('click', fetchStudentsFromLocalStorage);
-} else {
-    console.error('Load Students button not found!');
+function editStudent(studentId) {
+    localStorage.setItem('studentToEditId', studentId);
+    window.location.href = 'edit-student.html';
+}
+
+function deleteStudent(studentId) {
+    localStorage.setItem('studentToDeleteId', studentId);
+    window.location.href = 'delete-student.html';
 }
 
 document.addEventListener('DOMContentLoaded', function() {
